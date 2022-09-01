@@ -6,6 +6,7 @@
 #include "commandModeFunctions.h"
 #include "listDir.h"
 
+
 int main()
 {
     ioctl(STDIN_FILENO, TIOCGWINSZ, &w);

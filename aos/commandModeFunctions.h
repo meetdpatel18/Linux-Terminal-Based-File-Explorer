@@ -41,11 +41,14 @@ bool searchFileDir(string path, string fileToSearch)
 //---------DELETE CHECKER-----------
 //-----------FUNCTION---------------
 //----------------------------------
-bool canDelete(string src){
+bool canDelete(string src)
+{
     int ind = currPath.find(src);
 
-    if(ind != string::npos && ind==0){
-        cout<<endl<<"Cannot Delete Directory go to same level as that of directory that you want to delete"<<endl;
+    if (ind != string::npos && ind == 0)
+    {
+        cout << endl
+             << "Cannot Delete Directory go to same level as that of directory that you want to delete" << endl;
         usleep(3000000);
         return false;
     }
@@ -70,13 +73,15 @@ void move(vector<string> path)
         struct stat ip;
         if (stat((src).c_str(), &ip) != 0)
         {
-            cout <<endl<< "Unable to find information for specified path" << endl;
+            cout << endl
+                 << "Unable to find information for specified path" << endl;
             continue;
         }
 
         if (S_ISDIR(ip.st_mode))
         {
-            if(canDelete(src)){
+            if (canDelete(src))
+            {
                 copyDirectory(src, dest);
                 delete_entire_dir(src);
             }
@@ -88,7 +93,6 @@ void move(vector<string> path)
         }
     }
 }
-
 
 //----------------------------------
 //-------------COPY-----------------
@@ -398,7 +402,22 @@ string parsePath(string path)
     }
     path = tempPath;
 
-    if (path[0] != '/')
+    if (path[0] == '~')
+    {
+        const char *homePath;
+        homePath = getenv("HOME");
+
+        stringstream ss(homePath);
+        string res;
+        while (getline(ss, res, '/'))
+        {
+            if (res != "")
+                stk.push(res);
+        }
+        path = path.substr(2);
+    }
+
+    else if (path[0] != '/')
     {
         stringstream ss(currPath);
         string res;
