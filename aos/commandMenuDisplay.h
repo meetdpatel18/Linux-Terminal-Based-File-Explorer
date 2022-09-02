@@ -92,7 +92,7 @@ void goToCommandMode()
         if (d == NULL)
         {
             cout << endl
-                 << "Directory does not exist" << endl;
+                 << "Invalid Path" << endl;
             usleep(2000000);
         }
         else
