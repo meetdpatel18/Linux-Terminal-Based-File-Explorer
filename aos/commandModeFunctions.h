@@ -150,13 +150,16 @@ void copyFile(string sourceFile, string destFile)
 
     if ((fd_src = open(sourceFile.c_str(), O_RDONLY)) == -1)
     {
-        cout << "Error Opening File" << endl;
+        cout <<endl<< "Error Opening File" << endl;
         return;
     }
     if ((fd_dest = open(destFile.c_str(), O_CREAT | O_WRONLY, perm)) == -1)
     {
-        cout << "File Already Exists" << endl;
+        cout <<endl<< "File Already Exists" << endl;
         return;
+    }
+    else{
+        cout<<endl<<"File Created Successfully"<<endl;
     }
     while (read(fd_src, &ch, 1))
         write(fd_dest, &ch, 1);
@@ -414,7 +417,10 @@ string parsePath(string path)
             if (res != "")
                 stk.push(res);
         }
-        path = path.substr(2);
+        if(path.size()>=2)
+            path = path.substr(2);
+        else 
+            path="";
     }
 
     else if (path[0] != '/')

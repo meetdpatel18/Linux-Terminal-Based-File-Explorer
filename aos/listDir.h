@@ -27,12 +27,13 @@ string getFileSize(double size)
         return setPrec(size, 2) + "B";
 }
 
-void dynamicWindowResize(int t){
+void dynamicWindowResize(int t)
+{
     ioctl(STDIN_FILENO, TIOCGWINSZ, &w);
-    rows=w.ws_row;
-    cols=w.ws_col;
-    startRow=0;
-    currRow=0;
+    rows = w.ws_row;
+    cols = w.ws_col;
+    startRow = 0;
+    currRow = 0;
     CLEAR_SCREEN;
     display();
 }
@@ -112,46 +113,57 @@ void display()
 {
     ioctl(STDIN_FILENO, TIOCGWINSZ, &w);
 
-    int totalRows=w.ws_row;
+    int totalRows = w.ws_row;
     rows = totalRows * 0.7;
 
     int n = dirVect.size();
     int upperLimit = min(n, startRow + rows);
-    int rowsPrinted=0;
+    int rowsPrinted = 0;
+
     for (int i = startRow; i < upperLimit; i++)
     {
-        if (i == currRow)
-            cout << left << setw(4) << "->";
+        if (i == currRow){
+            cout<<"\033[1;107;30m";
+            cout << left << setw(5) << setfill(' ')<< "->";
+        }
         else
-            cout << left << setw(4) << setfill(' ') << "";
+            cout << left << setw(5) << setfill(' ') << "";
 
         cout << left << setw(5) << setfill(' ') << to_string(i + 1) + ")";
-        if(cols>70)
+        if (cols > 70)
             cout << right << setw(13) << setfill(' ') << dirVect[i][0];
-        if(cols>115)
+        if (cols > 115)
             cout << right << setw(10) << setfill(' ') << dirVect[i][1];
-        if(cols>115)
+        if (cols > 115)
             cout << right << setw(10) << setfill(' ') << dirVect[i][2];
-        if(cols>115)
+        if (cols > 115)
             cout << right << setw(10) << dirVect[i][3];
-        if(cols>80)
+        if (cols > 80)
             cout << right << setw(25) << dirVect[i][4];
-        cout << "\t"<<dirVect[i][5] << endl;
+        cout << left << setw(4) << setfill(' ') << "" << dirVect[i][5];
+        if(i == currRow){
+            cout<<"\033[0m\t\t";
+            
+        }
+        cout<<endl;
         rowsPrinted++;
     }
 
-    for(int i=1;i<=totalRows-rowsPrinted-5;i++){
+    for(int i=1;i<=totalRows-rowsPrinted-7;i++){
         cout<<endl;
     }
-    cout<< "Current Path: " << currPath<<endl;
+    cout << "Current Path: " << currPath << endl;
     if (mode == NORMAL_MODE)
         cout << endl
              << "-------------NORMAL MODE-------------" << endl;
     else
+    {
         cout << endl
              << "-------------COMMAND MODE-------------" << endl;
+        string tp = "Enter Command: $ ";
+        write(STDOUT_FILENO, tp.c_str(), tp.size());
+    }
 }
-
 
 void listDirectory(string path)
 {

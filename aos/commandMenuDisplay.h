@@ -1,10 +1,8 @@
 void goToCommandMode()
 {
-    cout<<"\033[H\033[J";
     mode = COMMAND_MODE;
     initializeNewDirectoryPointers();
     listDirectory(currPath);
-    cout << "Enter Command: $ ";
     char ch;
     string ip;
     int size;

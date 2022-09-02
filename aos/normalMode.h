@@ -19,8 +19,6 @@ void normalMode()
                 goToCommandMode();
                 break;
             case KEY_ESCAPE:
-                xb="ESCAPE PRESSED";
-                write(STDOUT_FILENO, xb.c_str(), xb.size());
                 break;
             case KEY_DOWN:
                 if (moveDown())
